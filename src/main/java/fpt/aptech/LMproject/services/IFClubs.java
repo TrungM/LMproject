@@ -5,6 +5,8 @@
 package fpt.aptech.LMproject.services;
 
 import fpt.aptech.LMproject.DTO.ClubsDTO;
+import fpt.aptech.LMproject.DTO.ClubsRefSeasonDTO;
+import fpt.aptech.LMproject.entites.ClubsRefSeason;
 import java.util.List;
 
 /**
@@ -21,11 +23,16 @@ public interface IFClubs {
 
     public List<ClubsDTO> listActiveClub();
 
+    public List<ClubsRefSeasonDTO> listRefClub();
+
     public ClubsDTO saveClubs(ClubsDTO clubs);
+
+    public ClubsRefSeasonDTO addClubsForSeason(ClubsRefSeasonDTO ref);
 
     public ClubsDTO updateClubs(ClubsDTO updateclubs);
 
-    public void updateActiveClubs(Integer code,Integer active);
+    public void updateActiveClubs(Integer code, Integer active);
+
     public void resetActiveClubs();
 
     public void updateImageClubs(Integer id);
@@ -35,11 +42,13 @@ public interface IFClubs {
     public List<ClubsDTO> searchByName(String nameclubs);
 
     public void deleteByID(Integer id);
-    
-       public List<ClubsDTO> getActive();
+
+    public List<ClubsDTO> getActive();
 
     public int clubCount();
 
+    public int clubCountRef(Integer season);
 
+    public void deleteChooseClub(Integer season, Integer clubID);
 
 }

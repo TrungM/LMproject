@@ -4,20 +4,14 @@
  */
 package fpt.aptech.LMproject.services;
 
-import fpt.aptech.LMproject.entites.Schedules;
+import fpt.aptech.LMproject.DTO.AdminDTO;
+import fpt.aptech.LMproject.entites.Manager;
 
 /**
  *
  * @author Minh Trung
  */
-public interface IFTable {
-
-    public void createNewSeason();
-
-    public void createNewRanking();
-
-    public Schedules createNewSchedulesfornewseason(Schedules newSchedules);
-
-    public void deleteSeasonTable(Integer season);
+public interface IFAdmin {
+        public Manager loginAdmin (String email , String password);
 
 }

@@ -55,4 +55,37 @@ public class SeasonService implements IFSeason {
         Season a = modelMapper.map(seasonDTO, Season.class);
         return a;
     }
+
+    @Override
+    public void updateActiveSeason(Integer id) {
+        repository.updateSeasonID(id);
+
+    }
+
+    @Override
+    public void updateSeasonUI(Integer active) {
+        repository.updateSeasonUI(active);
+
+    }
+
+    @Override
+    public void updateResetSeasonnUI(Integer active) {
+        repository.updateResetSeasonUI(active);
+    }
+
+    @Override
+    public List<SeasonDTO> listActiveUISeason() {
+        List<Season> list = repository.getActiveUI();
+        List<SeasonDTO> result = list.stream().map(season -> mapToDto(season)).collect(Collectors.toList());
+        return result;
+    }
+
+    @Override
+    public boolean seasonActiveUICount() {
+        if (repository.countActiveUI() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

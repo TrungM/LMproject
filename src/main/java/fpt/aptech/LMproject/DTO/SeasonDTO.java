@@ -13,13 +13,20 @@ public class SeasonDTO {
     private Integer id;
     private String seasonname;
     private String champion;
-    
-    public SeasonDTO () {};
+    private Integer active;
+    private Integer activeUI;
 
-    public SeasonDTO(Integer id, String seasonname, String champion) {
+    public SeasonDTO() {
+    }
+
+    ;
+
+    public SeasonDTO(Integer id, String seasonname, String champion, Integer active, Integer activeUI) {
         this.id = id;
         this.seasonname = seasonname;
         this.champion = champion;
+        this.active = active;
+        this.activeUI = activeUI;
     }
 
     public Integer getId() {
@@ -46,6 +53,22 @@ public class SeasonDTO {
         this.champion = champion;
     }
 
-  
+    public Integer getActive() {
+        return active;
+    }
 
+    public void setActive(Integer active) {
+        this.active = active;
+    }
+
+    public Integer getActiveUI() {
+        return activeUI;
+    }
+
+    public void setActiveUI(Integer activeUI) {
+        this.activeUI = activeUI;
+    }
+
+
+   
 }

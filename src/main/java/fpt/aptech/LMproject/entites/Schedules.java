@@ -62,12 +62,11 @@ public class Schedules implements Serializable {
     @Column(name = "result_club_home")
     private Integer resultClubHome;
 
-
     @Column(name = "result_club_away")
     private Integer resultClubAway;
-    
-    
 
+    @Column(name = "active")
+    private Integer active;
 
     @JoinColumn(name = "club_home", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -164,7 +163,6 @@ public class Schedules implements Serializable {
         this.stadiumId = stadiumId;
     }
 
-
     public Integer getRoundmatch() {
         return roundmatch;
     }
@@ -180,8 +178,8 @@ public class Schedules implements Serializable {
     public void setLeg(String leg) {
         this.leg = leg;
     }
-    
-        public Integer getResultClubHome() {
+
+    public Integer getResultClubHome() {
         return resultClubHome;
     }
 
@@ -196,4 +194,14 @@ public class Schedules implements Serializable {
     public void setResultClubAway(Integer resultClubAway) {
         this.resultClubAway = resultClubAway;
     }
+
+    public Integer getActive() {
+        return active;
+    }
+
+    public void setActive(Integer active) {
+        this.active = active;
+    }
+    
+    
 }

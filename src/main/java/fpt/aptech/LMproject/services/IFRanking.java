@@ -23,4 +23,12 @@ public interface IFRanking {
 
     public RankingDTO getRankingByID(Integer code);
 
+    public void deleteAll();
+
+    public void deleteSeasonReank(Integer season, Integer clubid);
+
+//   UI
+    public List<RankingDTO> getListUI();
+    public void updateRankingActiveUI(Integer id);
+
 }

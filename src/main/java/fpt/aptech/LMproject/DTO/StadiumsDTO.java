@@ -4,8 +4,6 @@
  */
 package fpt.aptech.LMproject.DTO;
 
-
-
 /**
  *
  * @author Minh Trung
@@ -16,14 +14,55 @@ public class StadiumsDTO {
     private String name;
     private String image;
     private Integer active;
+    private String capacity;
+    private String address;
+    private String pitchSize;
+    private String description;
 
     public StadiumsDTO() {
     }
 
-    public StadiumsDTO(Integer id, String name, String image,Integer active) {
+    public StadiumsDTO(Integer id, String name, String image, Integer active, String capacity, String address, String pitchSize, String description) {
         this.id = id;
         this.name = name;
         this.image = image;
+        this.active = active;
+        this.capacity = capacity;
+        this.address = address;
+        this.pitchSize = pitchSize;
+        this.description = description;
+    }
+
+    public String getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(String capacity) {
+        this.capacity = capacity;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPitchSize() {
+        return pitchSize;
+    }
+
+    public void setPitchSize(String pitchSize) {
+        this.pitchSize = pitchSize;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Integer getId() {
@@ -57,7 +96,5 @@ public class StadiumsDTO {
     public void setActive(Integer active) {
         this.active = active;
     }
-
-
 
 }

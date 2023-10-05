@@ -57,4 +57,32 @@ public class SeasonController {
         return null;
     }
 
+    @PutMapping("/seasonID/{id}")
+    public ResponseEntity<SeasonDTO> putSeasonID(@PathVariable Integer id) {
+        season.updateActiveSeason(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/seasonUI/{id}")
+    public ResponseEntity<SeasonDTO> putSeasonUI(@PathVariable Integer id) {
+        season.updateSeasonUI(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/seasonUI/reset/{id}")
+    public ResponseEntity<SeasonDTO> putResetSeasonUI(@PathVariable Integer id) {
+        season.updateResetSeasonnUI(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/seasonUI")
+    public List<SeasonDTO> getSeasonUI() {
+        return season.listActiveUISeason();
+    }
+
+    @GetMapping("/seasonUI/count")
+    public boolean  getCount() {
+        return season.seasonActiveUICount();
+    }
+
 }

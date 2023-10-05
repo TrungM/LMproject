@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -43,6 +44,12 @@ public class Season implements Serializable {
     @Size(max = 225)
     @Column(name = "champion")
     private String champion;
+    @Column(name = "active")
+    private Integer active;
+    @Column(name = "active_ui")
+    private Integer activeUI;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "season")
+    private List<ClubsRefSeason> clubsRefSeasonList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -92,7 +99,6 @@ public class Season implements Serializable {
 //    public void setSchedulesList(List<Schedules> schedulesList) {
 //        this.schedulesList = schedulesList;
 //    }
-
     public String getSeasonname() {
         return seasonname;
     }
@@ -109,4 +115,21 @@ public class Season implements Serializable {
         this.champion = champion;
     }
 
+    public Integer getActive() {
+        return active;
+    }
+
+    public void setActive(Integer active) {
+        this.active = active;
+    }
+
+    public Integer getActiveUI() {
+        return activeUI;
+    }
+
+    public void setActiveUI(Integer activeUI) {
+        this.activeUI = activeUI;
+    }
+
+    
 }

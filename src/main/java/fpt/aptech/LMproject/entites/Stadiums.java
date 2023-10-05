@@ -7,7 +7,6 @@ package fpt.aptech.LMproject.entites;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +19,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "Stadiums")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Stadiums.findAll", query = "SELECT s FROM Stadiums s  ORDER BY s.name DESC"),
+    @NamedQuery(name = "Stadiums.findAll", query = "SELECT s FROM Stadiums s  ORDER BY s.id DESC"),
     @NamedQuery(name = "Stadiums.findById", query = "SELECT s FROM Stadiums s WHERE s.id = :id"),
     @NamedQuery(name = "Stadiums.findByName", query = "SELECT s FROM Stadiums s WHERE s.name = :name"),
     @NamedQuery(name = "Stadiums.findByImage", query = "SELECT s FROM Stadiums s WHERE s.image = :image")})
@@ -44,10 +42,18 @@ public class Stadiums implements Serializable {
     @Size(max = 225)
     @Column(name = "image")
     private String image;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "stadiumId")
+    @OneToMany(mappedBy = "stadiumId")
     private List<Schedules> schedulesList;
     @Column(name = "active")
     private Integer active;
+    @Column(name = "capacity")
+    private String capacity;
+    @Column(name = "address")
+    private String address;
+    @Column(name = "pitch_size")
+    private String pitchSize;
+    @Column(name = "description")
+    private String description;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -78,7 +84,6 @@ public class Stadiums implements Serializable {
         this.id = id;
     }
 
-
 //    @XmlTransient
 //    public List<Clubs> getClubsList() {
 //        return clubsList;
@@ -87,8 +92,7 @@ public class Stadiums implements Serializable {
 //    public void setClubsList(List<Clubs> clubsList) {
 //        this.clubsList = clubsList;
 //    }
-    
-     public Integer getActive() {
+    public Integer getActive() {
         return active;
     }
 
@@ -96,16 +100,14 @@ public class Stadiums implements Serializable {
         this.active = active;
     }
 
-
-    @XmlTransient
-    public List<Schedules> getSchedulesList() {
-        return schedulesList;
-    }
-
-    public void setSchedulesList(List<Schedules> schedulesList) {
-        this.schedulesList = schedulesList;
-    }
-
+//    @XmlTransient
+//    public List<Schedules> getSchedulesList() {
+//        return schedulesList;
+//    }
+//
+//    public void setSchedulesList(List<Schedules> schedulesList) {
+//        this.schedulesList = schedulesList;
+//    }
     public String getName() {
         return name;
     }
@@ -121,4 +123,39 @@ public class Stadiums implements Serializable {
     public void setImage(String image) {
         this.image = image;
     }
+
+    public String getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(String capacity) {
+        this.capacity = capacity;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPitchSize() {
+        return pitchSize;
+    }
+
+    public void setPitchSize(String pitchSize) {
+        this.pitchSize = pitchSize;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    
+    
 }

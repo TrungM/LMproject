@@ -36,6 +36,11 @@ public class TableController {
         return ranking.getAll();
     }
 
+    @GetMapping("/index")
+    public List<RankingDTO> index() {
+        return ranking.getListUI();
+    }
+
     @GetMapping("/list/{id}")
     public Object get(@PathVariable Integer id) {
         return ranking.getRankingByID(id);
@@ -50,10 +55,15 @@ public class TableController {
         return new ResponseEntity<>(edit, HttpStatus.OK);
     }
 
+    @PutMapping("/active/{id}")
+    public ResponseEntity<RankingDTO> putActiveUI(@PathVariable Integer id) {
+         ranking.updateRankingActiveUI(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public RankingDTO post(@RequestBody RankingDTO a) {
-
         a.setPlayer(0);
         a.setWon(0);
         a.setDraw(0);
@@ -62,7 +72,6 @@ public class TableController {
         a.setGD(0);
         a.setGA(0);
         a.setPoints(0);
-        a.setSeason(1);
         return ranking.createTable(a);
     }
 
@@ -70,6 +79,18 @@ public class TableController {
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable int id) {
         ranking.deleteByID(id);
+    }
+
+    @DeleteMapping("/deleteAll")
+    @ResponseStatus(HttpStatus.OK)
+    public void delete() {
+        ranking.deleteAll();
+    }
+
+    @DeleteMapping("/deleteSeason/{season}/{clubid}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteSeason(@PathVariable int season, @PathVariable int clubid) {
+        ranking.deleteSeasonReank(season, clubid);
     }
 
 }

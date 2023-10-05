@@ -14,6 +14,9 @@
     <class>fpt.aptech.LMproject.entites.Clubsforseason</class>
     <class>fpt.aptech.LMproject.entites.Result</class>
     <class>fpt.aptech.LMproject.entites.Referees</class>
+    <class>fpt.aptech.LMproject.entites.Admin</class>
+    <class>fpt.aptech.LMproject.entites.Manager</class>
+    <class>fpt.aptech.LMproject.entites.ClubsRefSeason</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://LAPTOP-VLMFQGNN:1433;databaseName=Project4"/>
       <property name="javax.persistence.jdbc.user" value="sa"/>

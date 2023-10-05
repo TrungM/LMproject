@@ -6,10 +6,15 @@ package fpt.aptech.LMproject.services;
 
 import fpt.aptech.LMproject.DTO.RankingDTO;
 import fpt.aptech.LMproject.DTO.SchedulesDTO;
+import fpt.aptech.LMproject.entites.Clubs;
 import fpt.aptech.LMproject.entites.Ranking;
 import fpt.aptech.LMproject.entites.Schedules;
+import fpt.aptech.LMproject.entites.Season;
 import fpt.aptech.LMproject.exceptions.ResourceNotFoundException;
+import fpt.aptech.LMproject.repository.ClubsRepository;
+import fpt.aptech.LMproject.repository.RankingRepository;
 import fpt.aptech.LMproject.repository.SchedulesRepository;
+import fpt.aptech.LMproject.repository.SeasonRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +32,13 @@ public class MatchesService implements IFMatches {
 
     @Autowired
     SchedulesRepository schedule;
+    @Autowired
+    RankingRepository ranking;
+    @Autowired
+    SeasonRepository repositoryseason;
+
+    @Autowired
+    private ClubsRepository clubs;
 
     ModelMapper modelMapper = new ModelMapper();
 
@@ -59,40 +71,32 @@ public class MatchesService implements IFMatches {
 
         int halfSize = clubs.size() / 2;
 
+        Season ss = repositoryseason.findById(clubs.get(1).getSeason()).orElseThrow(() -> new ResourceNotFoundException("Season", "id", String.valueOf(clubs.get(1).getSeason())));
         for (int i = 0; i < clubs.size(); i++) {
-
-            if (i < halfSize) {
-                homeClubs.add(clubs.get(i));
-            } else {
-                awayClubs.add(clubs.get(i));
-            }
-        }
-
-        for (int round = 1; round <= numRounds; round++) {
-
-            for (int i = 0; i < halfSize; i++) {
+            for (int j = i + 1; j < clubs.size(); j++) {
                 SchedulesDTO a = new SchedulesDTO();
 
-                a.setClubHome(homeClubs.get(i));
-                a.setClubAway(awayClubs.get(i));
-                matches.add(a);
+                a.setClubHome(clubs.get(i));
+                a.setClubAway(clubs.get(j));
+                a.setSeason(ss);
 
+                Schedules m = new Schedules();
+                m.setClubHome(mapToEntityRanking(a.getClubHome()));
+                m.setClubAway(mapToEntityRanking(a.getClubAway()));
+                m.setLeg("first");
+                m.setSeason(a.getSeason());
+
+                schedule.save(m);
+
+                Schedules m2 = new Schedules();
+                m2.setClubHome(mapToEntityRanking(a.getClubAway()));
+                m2.setClubAway(mapToEntityRanking(a.getClubHome()));
+                m2.setLeg("return");
+                m2.setSeason(a.getSeason());
+
+                schedule.save(m2);
             }
-
         }
-        RankingDTO h = awayClubs.get(0);
-        awayClubs.remove(0);
-        awayClubs.add(h);
-
-        for (SchedulesDTO a : matches) {
-
-            Schedules m = new Schedules();
-            m.setClubHome(mapToEntityRanking(a.getClubHome()));
-            m.setClubAway(mapToEntityRanking(a.getClubAway()));
-            schedule.save(m);
-
-        }
-
     }
 
     @Override
@@ -126,6 +130,73 @@ public class MatchesService implements IFMatches {
         SchedulesDTO dto = mapToDtoSchdules(a.orElseThrow(() -> new ResourceNotFoundException("Stadiums", "id", String.valueOf(id))));
 
         return dto;
+    }
+
+    @Override
+    public void updateActiveMatches(Integer code, Integer active) {
+        schedule.updateActiveMatch(code, active);
+    }
+
+    @Override
+    public List<SchedulesDTO> findClubsActive(Integer id) {
+        Ranking a = ranking.findById(id).orElseThrow(() -> new ResourceNotFoundException("Ranking", "id", String.valueOf(id)));
+
+        List<Schedules> list = schedule.FindByMatchNameClub(a);
+        List<SchedulesDTO> result = list.stream().map(c -> mapToDtoSchdules(c)).collect(Collectors.toList());
+        return result;
+    }
+
+    @Override
+    public void deleteAll() {
+        schedule.deleteAll();
+    }
+
+    @Override
+    public List<SchedulesDTO> findLeg(String leg, Integer season) {
+        Season a = repositoryseason.findById(season).orElseThrow(() -> new ResourceNotFoundException("Season", "id", String.valueOf(season)));
+        List<Schedules> list = schedule.FindLeg(leg, a);
+        List<SchedulesDTO> result = list.stream().map(rank -> mapToDtoSchdules(rank)).collect(Collectors.toList());
+        return result;
+    }
+
+    @Override
+    public int legCount(String leg, Integer season) {
+        Season a = repositoryseason.findById(season).orElseThrow(() -> new ResourceNotFoundException("Season", "id", String.valueOf(season)));
+        return schedule.countLeg(leg, a);
+
+    }
+
+    @Override
+    public boolean checkSeason(Integer season) {
+        Season a = repositoryseason.findById(season).orElseThrow(() -> new ResourceNotFoundException("Season", "id", String.valueOf(season)));
+
+        if (schedule.checkSeason(a) == true) {
+            return true;
+        } else {
+
+            return false;
+        }
+
+    }
+
+    @Override
+    public void deleteSeasonTable(Integer season) {
+        Season a = repositoryseason.findById(season).orElseThrow(() -> new ResourceNotFoundException("Season", "id", String.valueOf(season)));
+        schedule.DeleteBySeason(a);
+
+    }
+
+    @Override
+    public List<SchedulesDTO> getListUI() {
+        List<Schedules> list = schedule.getSchedulesUI();
+        List<SchedulesDTO> result = list.stream().map(rank -> mapToDtoSchdules(rank)).collect(Collectors.toList());
+        return result;
+    }
+
+    @Override
+    public void updateSchduleActiveUI(Integer season) {
+        Season a = repositoryseason.findById(season).orElseThrow(() -> new ResourceNotFoundException("Season", "id", String.valueOf(season)));
+        schedule.updateScheduleUI(a);
     }
 
 }

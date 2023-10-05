@@ -5,6 +5,8 @@
 package fpt.aptech.LMproject.controller;
 
 import fpt.aptech.LMproject.DTO.ClubsDTO;
+import fpt.aptech.LMproject.DTO.ClubsRefSeasonDTO;
+import fpt.aptech.LMproject.entites.ClubsRefSeason;
 import fpt.aptech.LMproject.services.IFClubs;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,8 +48,26 @@ public class ClubsController {
 
     @GetMapping(value = "/list")
     @ResponseStatus(HttpStatus.OK)
-    public List<ClubsDTO> listFull() {
-        return clubs.findAllNoPagination();
+    public List<ClubsDTO> listFull(@RequestParam( required = false) String name) {
+        if (name != null) {
+            return clubs.searchByName("%" + name + "%");
+        } else {
+            return clubs.findAllNoPagination();
+
+        }
+    }    
+
+    @GetMapping("/search")
+    @ResponseStatus(HttpStatus.OK)
+    public Object searchClubs(@RequestParam("name") String name) {
+
+        return clubs.searchByName("%" + name + "%");
+    }
+
+    @GetMapping(value = "/listRefClubs")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ClubsRefSeasonDTO> listRef() {
+        return clubs.listRefClub();
     }
 
     @GetMapping(value = "/listActiveClub")
@@ -67,17 +87,16 @@ public class ClubsController {
         return clubs.getClubByCode(id);
     }
 
-    @GetMapping("/search")
-    @ResponseStatus(HttpStatus.OK)
-    public Object searchClubs(@RequestParam("name") String name) {
-
-        return clubs.searchByName("%" + name + "%");
-    }
-
     @GetMapping("/countClubs")
     @ResponseStatus(HttpStatus.OK)
     public int countClubs() {
         return clubs.clubCount();
+    }
+
+    @GetMapping("/countClubRef/{season}") 
+    @ResponseStatus(HttpStatus.OK)
+    public int countClubRef(@PathVariable Integer season) {
+        return clubs.clubCountRef(season);
     }
 
     @PutMapping("/{code}")
@@ -94,6 +113,12 @@ public class ClubsController {
 
         return new ResponseEntity<>(clubs.saveClubs(a), HttpStatus.CREATED);
 
+    }
+
+    @PostMapping("/createRef")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<ClubsRefSeasonDTO> postRef(@RequestBody ClubsRefSeasonDTO a) {
+        return new ResponseEntity<>(clubs.addClubsForSeason(a), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
@@ -119,4 +144,12 @@ public class ClubsController {
         clubs.resetActiveClubs();
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @DeleteMapping("/deleteChooseClub/{season}/{clubID}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteChooseClub(@PathVariable int season, @PathVariable int clubID) {
+        clubs.deleteChooseClub(season, clubID);
+    }
+    
+    
 }

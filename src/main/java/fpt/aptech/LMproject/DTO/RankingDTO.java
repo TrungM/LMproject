@@ -14,7 +14,7 @@ public class RankingDTO {
 
     private Integer id;
     private Integer position;
-    private Clubs clubName;
+    private ClubsDTO clubName;
     private Integer player;
     private Integer won;
     private Integer draw;
@@ -26,13 +26,14 @@ public class RankingDTO {
     private Integer nextmatch;
     private Integer season;
     private Integer clubid;
+    private Integer active;
 
       public RankingDTO() {
     }
 
     ;
 
-    public RankingDTO(Integer id, Integer position, Clubs clubName, Integer player, Integer won, Integer draw, Integer lose, Integer GA, Integer GF, Integer GD, Integer points, Integer nextmatch, Integer season, Integer clubid) {
+    public RankingDTO(Integer id, Integer position, ClubsDTO clubName, Integer player, Integer won, Integer draw, Integer lose, Integer GA, Integer GF, Integer GD, Integer points, Integer nextmatch, Integer season, Integer clubid, Integer active) {
         this.id = id;
         this.position = position;
         this.clubName = clubName;
@@ -47,7 +48,10 @@ public class RankingDTO {
         this.nextmatch = nextmatch;
         this.season = season;
         this.clubid = clubid;
+        this.active = active;
     }
+
+
     
    
     
@@ -69,11 +73,11 @@ public class RankingDTO {
         this.position = position;
     }
 
-    public Clubs getClubName() {
+    public ClubsDTO getClubName() {
         return clubName;
     }
 
-    public void setClubName(Clubs clubName) {
+    public void setClubName(ClubsDTO clubName) {
         this.clubName = clubName;
     }
 
@@ -163,6 +167,14 @@ public class RankingDTO {
 
     public void setClubid(Integer clubid) {
         this.clubid = clubid;
+    }
+
+    public Integer getActive() {
+        return active;
+    }
+
+    public void setActive(Integer active) {
+        this.active = active;
     }
     
     

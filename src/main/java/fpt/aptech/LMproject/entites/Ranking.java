@@ -24,7 +24,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -87,6 +86,8 @@ public class Ranking implements Serializable {
     private Integer season;
     @Column(name = "clubid")
     private Integer clubid;
+    @Column(name = "active")
+    private Integer active;
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "clubname", referencedColumnName = "id")

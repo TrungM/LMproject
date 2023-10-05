@@ -50,7 +50,7 @@ public interface ClubsRepository extends JpaRepository<Clubs, Integer> {
     
      @Transactional
     @Modifying
-    @Query("UPDATE Clubs c SET c.active=0 WHERE c.active =1")
+    @Query("UPDATE Clubs c SET c.active= 0 WHERE c.active = 1 ")
     int ResetActiveClubs( );
     
        @Query("SELECT COUNT(*) FROM Clubs Where active=1")

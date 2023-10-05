@@ -6,14 +6,11 @@ package fpt.aptech.LMproject.entites;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,7 +23,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -36,7 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "Clubs")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Clubs.findAll", query = "SELECT c FROM Clubs c"),
+    @NamedQuery(name = "Clubs.findAll", query = "SELECT c FROM Clubs c  ORDER BY c.id DESC"),
     @NamedQuery(name = "Clubs.findById", query = "SELECT c FROM Clubs c WHERE c.id = :id"),
     @NamedQuery(name = "Clubs.findByCodeClub", query = "SELECT c FROM Clubs c WHERE c.codeClub = :codeClub"),
     @NamedQuery(name = "Clubs.findByName", query = "SELECT c FROM Clubs c WHERE c.name = :name"),
@@ -65,6 +61,9 @@ public class Clubs implements Serializable {
     @Size(max = 255)
     @Column(name = "linkclub")
     private String linkclub;
+    @OneToMany(mappedBy = "clubID")
+    private List<ClubsRefSeason> clubsRefSeasonList;
+   
   
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clubName")
     private List<Ranking> rankingList;
@@ -174,6 +173,30 @@ public class Clubs implements Serializable {
 //        this.codeClub = codeClub;
 //    }
 
+//    public String getCodeClub() {
+//        return codeClub;
+//    }
+//
+//    public void setCodeClub(String codeClub) {
+//        this.codeClub = codeClub;
+//    }
+
+//    public String getCodeClub() {
+//        return codeClub;
+//    }
+//
+//    public void setCodeClub(String codeClub) {
+//        this.codeClub = codeClub;
+//    }
+
+//    public String getCodeClub() {
+//        return codeClub;
+//    }
+//
+//    public void setCodeClub(String codeClub) {
+//        this.codeClub = codeClub;
+//    }
+
     public String getName() {
         return name;
     }
@@ -198,6 +221,15 @@ public class Clubs implements Serializable {
         this.logo = logo;
     }
 
+//    @XmlTransient
+//    public List<ClubsRefSeason> getClubsRefSeasonList() {
+//        return clubsRefSeasonList;
+//    }
+//
+//    public void setClubsRefSeasonList(List<ClubsRefSeason> clubsRefSeasonList) {
+//        this.clubsRefSeasonList = clubsRefSeasonList;
+//    }
+
     public String getLinkclub() {
         return linkclub;
     }
@@ -205,5 +237,6 @@ public class Clubs implements Serializable {
     public void setLinkclub(String linkclub) {
         this.linkclub = linkclub;
     }
+
 
 }

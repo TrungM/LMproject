@@ -4,7 +4,7 @@
  */
 package fpt.aptech.LMproject.DTO;
 
-import fpt.aptech.LMproject.entites.Result;
+import fpt.aptech.LMproject.entites.Season;
 import fpt.aptech.LMproject.entites.Stadiums;
 
 /**
@@ -19,12 +19,14 @@ public class SchedulesDTO {
     private RankingDTO clubAway;
     private String matchDay;
     private String matchTime;
-    private Integer season;
+    private Season season;
     private Integer roundmatch;
     private String leg;
     private Integer resultClubHome;
     private Integer resultClubAway;
     private Stadiums stadiumId;
+    private Integer referees;
+    private Integer active;
 
     
     public SchedulesDTO() {
@@ -32,7 +34,7 @@ public class SchedulesDTO {
 
     ;
 
-    public SchedulesDTO(Integer id, String matchCode, RankingDTO clubHome, RankingDTO clubAway, String matchDay, String matchTime, Integer season, Integer roundmatch, String leg, Integer resultClubHome, Integer resultClubAway, Stadiums stadiumId) {
+    public SchedulesDTO(Integer id, String matchCode, RankingDTO clubHome, RankingDTO clubAway, String matchDay, String matchTime, Season season, Integer roundmatch, String leg, Integer resultClubHome, Integer resultClubAway, Stadiums stadiumId, Integer referees, Integer active) {
         this.id = id;
         this.matchCode = matchCode;
         this.clubHome = clubHome;
@@ -45,18 +47,22 @@ public class SchedulesDTO {
         this.resultClubHome = resultClubHome;
         this.resultClubAway = resultClubAway;
         this.stadiumId = stadiumId;
+        this.referees = referees;
+        this.active = active;
     }
+
+    
 
    
     public Integer getId() {
         return id;
     }
 
-    public Integer getSeason() {
+    public Season getSeason() {
         return season;
     }
 
-    public void setSeason(Integer season) {
+    public void setSeason(Season season) {
         this.season = season;
     }
 
@@ -143,5 +149,23 @@ public class SchedulesDTO {
     public void setStadiumId(Stadiums stadiumId) {
         this.stadiumId = stadiumId;
     }
+    
+    
+    public Integer getReferees() {
+        return referees;
+    }
+
+    public void setReferees(Integer referees) {
+        this.referees = referees;
+    }
+
+    public Integer getActive() {
+        return active;
+    }
+
+    public void setActive(Integer active) {
+        this.active = active;
+    }
+
 
 }

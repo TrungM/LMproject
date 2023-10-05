@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Minh Trung
  */
 @Entity
-@Table(name = "Clubsforseason")
+@Table(name = "clubs_ref_season")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Clubsforseason.findAll", query = "SELECT c FROM Clubsforseason c"),
@@ -64,6 +64,8 @@ public class Clubsforseason implements Serializable {
     private int stadiumid;
     @Column(name = "active")
     private Integer active;
+    @Column(name = "season")
+    private Integer season;
 
     public Clubsforseason() {
     }
