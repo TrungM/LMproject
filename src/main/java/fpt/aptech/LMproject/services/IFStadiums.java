@@ -33,4 +33,6 @@ public interface IFStadiums {
 
     public void updateImageStadium(Integer id);
 
+    public boolean checkExistStadiums(Integer id);
+
 }

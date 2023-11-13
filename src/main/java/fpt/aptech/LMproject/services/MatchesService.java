@@ -6,7 +6,6 @@ package fpt.aptech.LMproject.services;
 
 import fpt.aptech.LMproject.DTO.RankingDTO;
 import fpt.aptech.LMproject.DTO.SchedulesDTO;
-import fpt.aptech.LMproject.entites.Clubs;
 import fpt.aptech.LMproject.entites.Ranking;
 import fpt.aptech.LMproject.entites.Schedules;
 import fpt.aptech.LMproject.entites.Season;
@@ -197,6 +196,15 @@ public class MatchesService implements IFMatches {
     public void updateSchduleActiveUI(Integer season) {
         Season a = repositoryseason.findById(season).orElseThrow(() -> new ResourceNotFoundException("Season", "id", String.valueOf(season)));
         schedule.updateScheduleUI(a);
+    }
+
+    @Override
+    public List<SchedulesDTO> listMatchFollowClub(Integer id, Integer season) {
+        Season s = repositoryseason.findById(season).orElseThrow(() -> new ResourceNotFoundException("Season", "id", String.valueOf(season)));
+        Ranking r = ranking.findById(id).orElseThrow(() -> new ResourceNotFoundException("Ranking", "id", String.valueOf(id)));
+        List<Schedules> list = schedule.FindByMatchClub(r,s);
+        List<SchedulesDTO> result = list.stream().map(rank -> mapToDtoSchdules(rank)).collect(Collectors.toList());
+        return result;
     }
 
 }

@@ -16,7 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -32,11 +31,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Players.findById", query = "SELECT p FROM Players p WHERE p.id = :id"),
     @NamedQuery(name = "Players.findByName", query = "SELECT p FROM Players p WHERE p.name = :name"),
     @NamedQuery(name = "Players.findByHeight", query = "SELECT p FROM Players p WHERE p.height = :height"),
-    @NamedQuery(name = "Players.findByCodePlayer", query = "SELECT p FROM Players p WHERE p.codePlayer = :codePlayer"),
+    @NamedQuery(name = "Players.findByWeight", query = "SELECT p FROM Players p WHERE p.weight = :weight"),
     @NamedQuery(name = "Players.findByImage", query = "SELECT p FROM Players p WHERE p.image = :image"),
     @NamedQuery(name = "Players.findByNumber", query = "SELECT p FROM Players p WHERE p.number = :number"),
     @NamedQuery(name = "Players.findByDateOfBirth", query = "SELECT p FROM Players p WHERE p.dateOfBirth = :dateOfBirth"),
-    @NamedQuery(name = "Players.findByStatistics", query = "SELECT p FROM Players p WHERE p.statistics = :statistics")})
+    @NamedQuery(name = "Players.findByStatus", query = "SELECT p FROM Players p WHERE p.status = :status")})
 public class Players implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,55 +44,40 @@ public class Players implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 225)
+    @Size(max = 50)
     @Column(name = "name")
     private String name;
-    @Basic(optional = false)
-    @NotNull
+    @Size(max = 50)
     @Column(name = "height")
-    private int height;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 225)
-    @Column(name = "code_player")
-    private String codePlayer;
+    private String height;
+    @Size(max = 50)
+    @Column(name = "weight")
+    private String weight;
     @Size(max = 225)
     @Column(name = "image")
     private String image;
     @Column(name = "number")
     private Integer number;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 20)
-    @Column(name = "date of birth")
+    @Size(max = 30)
+    @Column(name = "date_of_birth")
     private String dateOfBirth;
-    @Column(name = "statistics")
-    private Integer statistics;
-    @JoinColumn(name = "clubid", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Clubs clubid;
+    @Column(name = "status")
+    private Integer status;
+    @JoinColumn(name = "club_id", referencedColumnName = "id")
+    @ManyToOne
+    private Clubs clubId;
     @JoinColumn(name = "nationality", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Flags nationality;
-    @JoinColumn(name = "positionid", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Positions positionid;
+    @JoinColumn(name = "position_id", referencedColumnName = "id")
+    @ManyToOne
+    private Positions positionId;
 
     public Players() {
     }
 
     public Players(Integer id) {
         this.id = id;
-    }
-
-    public Players(Integer id, String name, int height, String codePlayer, String dateOfBirth) {
-        this.id = id;
-        this.name = name;
-        this.height = height;
-        this.codePlayer = codePlayer;
-        this.dateOfBirth = dateOfBirth;
     }
 
     public Integer getId() {
@@ -112,20 +96,20 @@ public class Players implements Serializable {
         this.name = name;
     }
 
-    public int getHeight() {
+    public String getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(String height) {
         this.height = height;
     }
 
-    public String getCodePlayer() {
-        return codePlayer;
+    public String getWeight() {
+        return weight;
     }
 
-    public void setCodePlayer(String codePlayer) {
-        this.codePlayer = codePlayer;
+    public void setWeight(String weight) {
+        this.weight = weight;
     }
 
     public String getImage() {
@@ -152,20 +136,20 @@ public class Players implements Serializable {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Integer getStatistics() {
-        return statistics;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setStatistics(Integer statistics) {
-        this.statistics = statistics;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
-    public Clubs getClubid() {
-        return clubid;
+    public Clubs getClubId() {
+        return clubId;
     }
 
-    public void setClubid(Clubs clubid) {
-        this.clubid = clubid;
+    public void setClubId(Clubs clubId) {
+        this.clubId = clubId;
     }
 
     public Flags getNationality() {
@@ -176,13 +160,15 @@ public class Players implements Serializable {
         this.nationality = nationality;
     }
 
-    public Positions getPositionid() {
-        return positionid;
+    public Positions getPositionId() {
+        return positionId;
     }
 
-    public void setPositionid(Positions positionid) {
-        this.positionid = positionid;
+    public void setPositionId(Positions positionId) {
+        this.positionId = positionId;
     }
 
     
+    
+
 }

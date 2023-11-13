@@ -25,6 +25,8 @@ public interface IFClubs {
 
     public List<ClubsRefSeasonDTO> listRefClub();
 
+    public List<ClubsRefSeasonDTO> listRefClubUI();
+
     public ClubsDTO saveClubs(ClubsDTO clubs);
 
     public ClubsRefSeasonDTO addClubsForSeason(ClubsRefSeasonDTO ref);
@@ -50,5 +52,11 @@ public interface IFClubs {
     public int clubCountRef(Integer season);
 
     public void deleteChooseClub(Integer season, Integer clubID);
+
+    public void updateClubsRefActiveUI(Integer season);
+
+    public boolean checkExistclubs(Integer id);
+    
+     public boolean checkExistClubPlayers(Integer id);
 
 }

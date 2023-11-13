@@ -7,6 +7,7 @@ package fpt.aptech.LMproject.services;
 import fpt.aptech.LMproject.DTO.StadiumsDTO;
 import fpt.aptech.LMproject.entites.Stadiums;
 import fpt.aptech.LMproject.exceptions.ResourceNotFoundException;
+import fpt.aptech.LMproject.repository.ClubsRepository;
 import fpt.aptech.LMproject.repository.StadiumsRepository;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +27,8 @@ public class StadiumsService implements IFStadiums {
 
     @Autowired
     private StadiumsRepository repository;
+    @Autowired
+    private ClubsRepository clubs;
     ModelMapper modelMapper = new ModelMapper();
 
     @Override
@@ -128,8 +131,8 @@ public class StadiumsService implements IFStadiums {
 
     @Override
     public void updateStadiumActive(Integer id) {
-        
-      repository.updateActiveByID(id);
+
+        repository.updateActiveByID(id);
     }
 
     @Override
@@ -139,7 +142,13 @@ public class StadiumsService implements IFStadiums {
 
     @Override
     public void updateImageStadium(Integer id) {
-       repository.updateImageStadiums(id);
+        repository.updateImageStadiums(id);
+    }
+
+    @Override
+    public boolean checkExistStadiums(Integer id) {
+        Stadiums c = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Stadiums", "id", String.valueOf(id)));
+        return clubs.checkStadiums(c);
     }
 
 }

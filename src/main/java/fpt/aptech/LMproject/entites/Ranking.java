@@ -52,9 +52,12 @@ public class Ranking implements Serializable {
     @NotNull
     @Column(name = "position")
     private int position;
-    @Size(max = 50)
-    @Column(name = "nextmatch")
-    private String nextmatch;
+    
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "nextmatch", referencedColumnName = "id")
+    private Clubs nextmatch;
+
     @OneToMany(mappedBy = "clubHome")
     private List<Schedules> schedulesList;
     @OneToMany(mappedBy = "clubAway")
@@ -209,12 +212,22 @@ public class Ranking implements Serializable {
         this.position = position;
     }
 
-    public String getNextmatch() {
+    public Clubs getNextmatch() {
         return nextmatch;
     }
 
-    public void setNextmatch(String nextmatch) {
+    public void setNextmatch(Clubs nextmatch) {
         this.nextmatch = nextmatch;
     }
+
+    public Integer getActive() {
+        return active;
+    }
+
+    public void setActive(Integer active) {
+        this.active = active;
+    }
+    
+    
 
 }

@@ -6,8 +6,6 @@ package fpt.aptech.LMproject.controller;
 
 import fpt.aptech.LMproject.DTO.RankingDTO;
 import fpt.aptech.LMproject.DTO.SchedulesDTO;
-import fpt.aptech.LMproject.DTO.SeasonDTO;
-import fpt.aptech.LMproject.entites.Season;
 import fpt.aptech.LMproject.services.IFMatches;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,7 +43,7 @@ public class MatchesController {
     }
 
     @GetMapping("/listLeg/{leg}/{season}")
-    public List<SchedulesDTO> list(@PathVariable("leg") String leg, @PathVariable("season") Integer season) {
+    public List<SchedulesDTO> listLeg(@PathVariable("leg") String leg, @PathVariable("season") Integer season) {
         return matches.findLeg(leg, season);
     }
 
@@ -109,6 +107,11 @@ public class MatchesController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteSeason(@PathVariable int season) {
         matches.deleteSeasonTable(season);
+    }
+
+    @GetMapping("/matches/{id}/{season}")
+    public Object getMatchClub(@PathVariable Integer id, @PathVariable Integer season) {
+        return matches.listMatchFollowClub(id, season);
     }
 
     // UI

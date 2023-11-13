@@ -21,7 +21,10 @@ public interface IFRanking {
 
     public void deleteByID(int id);
 
-    public RankingDTO getRankingByID(Integer code);
+    public RankingDTO getRankingByCodeClubs(Integer code);
+    
+    public RankingDTO getRankingByID(Integer id);
+
 
     public void deleteAll();
 

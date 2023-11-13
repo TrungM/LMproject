@@ -56,6 +56,15 @@ public class StadiumsController {
     public StadiumsDTO get(@PathVariable Integer id) {
         return stadium.getStadiumsByID(id);
     }
+    
+    
+    
+    @GetMapping("/check/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public boolean checkExist(@PathVariable Integer id) {
+        return stadium.checkExistStadiums(id);
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<StadiumsDTO> put(@PathVariable Integer id, @RequestBody StadiumsDTO stadiumdto) {

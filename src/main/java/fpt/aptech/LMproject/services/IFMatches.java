@@ -6,7 +6,6 @@ package fpt.aptech.LMproject.services;
 
 import fpt.aptech.LMproject.DTO.RankingDTO;
 import fpt.aptech.LMproject.DTO.SchedulesDTO;
-import fpt.aptech.LMproject.entites.Season;
 import java.util.List;
 
 /**
@@ -38,8 +37,14 @@ public interface IFMatches {
     public void deleteAll();
 
     public void deleteSeasonTable(Integer season);
+    
+    public List<SchedulesDTO> listMatchFollowClub(Integer id, Integer season);
+
 
 //    UI
     public List<SchedulesDTO> getListUI();
+
     public void updateSchduleActiveUI(Integer season);
+
+
 }

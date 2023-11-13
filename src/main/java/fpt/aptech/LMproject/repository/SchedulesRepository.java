@@ -23,6 +23,10 @@ public interface SchedulesRepository extends JpaRepository<Schedules, Integer> {
 
     @Query("SELECT COUNT(*) FROM Schedules")
     int countSchedulesActive();
+    
+    
+    @Query("SELECT c FROM Schedules c WHERE c.season = :season AND c.clubHome=:id OR c.clubAway=:id")
+    List<Schedules> FindByMatchClub(@PathVariable("id") Ranking id,  @PathVariable("season") Season season );
 
     @Query("SELECT c FROM Schedules c WHERE c.clubHome=:id OR c.clubAway=:id")
     List<Schedules> FindByMatchNameClub(@PathVariable("id") Ranking id);
@@ -51,7 +55,8 @@ public interface SchedulesRepository extends JpaRepository<Schedules, Integer> {
     @Query("UPDATE Schedules c SET c.active = 1  WHERE c.season = :season")
     int updateScheduleUI(@PathVariable("season") Season season);
 
-    @Query("SELECT c FROM Schedules c WHERE c.active = 1 ")
+    @Query("SELECT c  FROM Schedules c  Where c.active = 1 AND c.matchDay IS NOT NULL AND c.matchDay != '' AND c.matchTime IS NOT NULL AND c.matchTime != ''  Order By c.matchDay ASC ")
     List<Schedules> getSchedulesUI();
+
 
 }

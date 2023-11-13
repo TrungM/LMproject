@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.PathVariable;
+import fpt.aptech.LMproject.entites.Stadiums;
 
 /**
  *
@@ -21,7 +22,7 @@ public interface ClubsRepository extends JpaRepository<Clubs, Integer> {
 
     @Query("SELECT c FROM Clubs c WHERE c.name  LIKE %:nameClubs%")
     List<Clubs> FindByNameClubs(@Param("nameClubs") String nameClubs);
-    
+
     @Query("SELECT c FROM Clubs c WHERE c.active=1")
     List<Clubs> FindByActive();
 
@@ -41,23 +42,22 @@ public interface ClubsRepository extends JpaRepository<Clubs, Integer> {
     @Transactional
     @Modifying
     @Query("UPDATE Clubs c SET c.active = :active  WHERE c.id = :id")
-    int updateActiveClubs(@PathVariable("id") Integer id , @PathVariable("active") Integer active );
-    
-    
-     @Query("SELECT c FROM Clubs c WHERE c.active=1 ")
-    List<Clubs> FindClubsActive ();
-    
-    
-     @Transactional
+    int updateActiveClubs(@PathVariable("id") Integer id, @PathVariable("active") Integer active);
+
+    @Query("SELECT c FROM Clubs c WHERE c.active=1 ")
+    List<Clubs> FindClubsActive();
+
+    @Transactional
     @Modifying
     @Query("UPDATE Clubs c SET c.active= 0 WHERE c.active = 1 ")
-    int ResetActiveClubs( );
-    
-       @Query("SELECT COUNT(*) FROM Clubs Where active=1")
+    int ResetActiveClubs();
+
+    @Query("SELECT COUNT(*) FROM Clubs Where active=1")
     int countClubsActive();
     
-  
-//     @Query("SELECT c FROM Clubs c WHERE c.id !=id ")
-//    List<Clubs> FindClubsChoose (@PathVariable("id") Integer id );
+     @Query("SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END FROM Clubs u WHERE u.stadiumid = :id")
+    boolean checkStadiums(@PathVariable("id") Stadiums id );
+
+ 
 
 }

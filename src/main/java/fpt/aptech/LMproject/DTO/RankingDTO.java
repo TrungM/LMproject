@@ -4,7 +4,6 @@
  */
 package fpt.aptech.LMproject.DTO;
 
-import fpt.aptech.LMproject.entites.Clubs;
 
 /**
  *
@@ -15,7 +14,7 @@ public class RankingDTO {
     private Integer id;
     private Integer position;
     private ClubsDTO clubName;
-    private Integer player;
+    private Integer played;
     private Integer won;
     private Integer draw;
     private Integer lose;
@@ -23,21 +22,19 @@ public class RankingDTO {
     private Integer GF;
     private Integer GD;
     private Integer points;
-    private Integer nextmatch;
+    private ClubsDTO nextmatch;
     private Integer season;
     private Integer clubid;
     private Integer active;
 
-      public RankingDTO() {
+    public RankingDTO() {
     }
 
-    ;
-
-    public RankingDTO(Integer id, Integer position, ClubsDTO clubName, Integer player, Integer won, Integer draw, Integer lose, Integer GA, Integer GF, Integer GD, Integer points, Integer nextmatch, Integer season, Integer clubid, Integer active) {
+    public RankingDTO(Integer id, Integer position, ClubsDTO clubName, Integer played, Integer won, Integer draw, Integer lose, Integer GA, Integer GF, Integer GD, Integer points, ClubsDTO nextmatch, Integer season, Integer clubid, Integer active) {
         this.id = id;
         this.position = position;
         this.clubName = clubName;
-        this.player = player;
+        this.played = played;
         this.won = won;
         this.draw = draw;
         this.lose = lose;
@@ -50,12 +47,6 @@ public class RankingDTO {
         this.clubid = clubid;
         this.active = active;
     }
-
-
-    
-   
-    
-    
 
     public Integer getId() {
         return id;
@@ -81,12 +72,12 @@ public class RankingDTO {
         this.clubName = clubName;
     }
 
-    public Integer getPlayer() {
-        return player;
+    public Integer getPlayed() {
+        return played;
     }
 
-    public void setPlayer(Integer player) {
-        this.player = player;
+    public void setPlayed(Integer played) {
+        this.played = played;
     }
 
     public Integer getWon() {
@@ -145,11 +136,11 @@ public class RankingDTO {
         this.points = points;
     }
 
-    public Integer getNextmatch() {
+    public ClubsDTO getNextmatch() {
         return nextmatch;
     }
 
-    public void setNextmatch(Integer nextmatch) {
+    public void setNextmatch(ClubsDTO nextmatch) {
         this.nextmatch = nextmatch;
     }
 
@@ -176,7 +167,5 @@ public class RankingDTO {
     public void setActive(Integer active) {
         this.active = active;
     }
-    
-    
 
 }

@@ -1,4 +1,4 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/springframework/Service.java to edit this template
  */
@@ -82,7 +82,7 @@ public class RankingService implements IFRanking {
     }
     
     @Override
-    public RankingDTO getRankingByID(Integer code) {
+    public RankingDTO getRankingByCodeClubs(Integer code) {
         
         Ranking a = repository.FindOneClubs(code);
         
@@ -114,6 +114,13 @@ public class RankingService implements IFRanking {
     public void updateRankingActiveUI(Integer id) {
         repository.updateRankingUI(id);
         
+    }
+
+    @Override
+    public RankingDTO getRankingByID(Integer id) {
+      Ranking ranking = repository.getByID(id);
+        RankingDTO result = mapToDto(ranking);
+        return result;
     }
     
 }

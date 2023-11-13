@@ -42,7 +42,12 @@ public class TableController {
     }
 
     @GetMapping("/list/{id}")
-    public Object get(@PathVariable Integer id) {
+    public Object getByCode(@PathVariable Integer id) {
+        return ranking.getRankingByCodeClubs(id);
+    }
+    
+     @GetMapping("/{id}")
+    public Object getByID(@PathVariable Integer id) {
         return ranking.getRankingByID(id);
     }
 
@@ -64,7 +69,7 @@ public class TableController {
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public RankingDTO post(@RequestBody RankingDTO a) {
-        a.setPlayer(0);
+        a.setPlayed(0);
         a.setWon(0);
         a.setDraw(0);
         a.setLose(0);

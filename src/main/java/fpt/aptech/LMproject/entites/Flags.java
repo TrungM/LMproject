@@ -7,7 +7,6 @@ package fpt.aptech.LMproject.entites;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +19,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -33,27 +31,30 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Flags.findAll", query = "SELECT f FROM Flags f"),
     @NamedQuery(name = "Flags.findById", query = "SELECT f FROM Flags f WHERE f.id = :id"),
     @NamedQuery(name = "Flags.findByName", query = "SELECT f FROM Flags f WHERE f.name = :name"),
-    @NamedQuery(name = "Flags.findByImages", query = "SELECT f FROM Flags f WHERE f.images = :images")})
+    @NamedQuery(name = "Flags.findByImages", query = "SELECT f FROM Flags f WHERE f.image = :image")})
 public class Flags implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Size(max = 30)
+    @Column(name = "name")
+    private String name;
+    @Basic(optional = false)
+    @NotNull
+    @Size(max = 225)
+    @Column(name = "image")
+    private String image;
+    @OneToMany(mappedBy = "nationality")
+    private List<Players> playerList;
+
+    @OneToMany(mappedBy = "nationality")
+    private List<Referees> refereeList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "name")
-    private String name;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 225)
-    @Column(name = "images")
-    private String images;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nationality")
-    private List<Players> playersList;
 
     public Flags() {
     }
@@ -62,10 +63,10 @@ public class Flags implements Serializable {
         this.id = id;
     }
 
-    public Flags(Integer id, String name, String images) {
+    public Flags(Integer id, String name, String image) {
         this.id = id;
         this.name = name;
-        this.images = images;
+        this.image = image;
     }
 
     public Integer getId() {
@@ -84,22 +85,11 @@ public class Flags implements Serializable {
         this.name = name;
     }
 
-    public String getImages() {
-        return images;
+    public String getImage() {
+        return image;
     }
 
-    public void setImages(String images) {
-        this.images = images;
+    public void setImage(String image) {
+        this.image = image;
     }
-
-    @XmlTransient
-    public List<Players> getPlayersList() {
-        return playersList;
-    }
-
-    public void setPlayersList(List<Players> playersList) {
-        this.playersList = playersList;
-    }
-
-
 }

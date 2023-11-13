@@ -4,6 +4,8 @@
  */
 package fpt.aptech.LMproject.DTO;
 
+import fpt.aptech.LMproject.entites.Season;
+
 /**
  *
  * @author Minh Trung
@@ -12,13 +14,13 @@ public class ClubsRefSeasonDTO {
 
     private Integer id;
     private ClubsDTO clubID;
-    private SeasonDTO season;
+    private Season season;
     private Integer active;
 
     public ClubsRefSeasonDTO() {
     }
 
-    public ClubsRefSeasonDTO(Integer id, ClubsDTO clubID, SeasonDTO season, Integer active) {
+    public ClubsRefSeasonDTO(Integer id, ClubsDTO clubID, Season season, Integer active) {
         this.id = id;
         this.clubID = clubID;
         this.season = season;
@@ -41,11 +43,11 @@ public class ClubsRefSeasonDTO {
         this.clubID = clubID;
     }
 
-    public SeasonDTO getSeason() {
+    public Season getSeason() {
         return season;
     }
 
-    public void setSeason(SeasonDTO season) {
+    public void setSeason(Season season) {
         this.season = season;
     }
 

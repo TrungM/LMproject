@@ -23,6 +23,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -61,16 +62,20 @@ public class Clubs implements Serializable {
     @Size(max = 255)
     @Column(name = "linkclub")
     private String linkclub;
+    @OneToMany(mappedBy = "clubId")
+    private List<Players> playerList;
+
+    @OneToMany(mappedBy = "nextmatch")
+    private List<Ranking> nextmatch;
+    
+    
     @OneToMany(mappedBy = "clubID")
     private List<ClubsRefSeason> clubsRefSeasonList;
    
   
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clubName")
+    @OneToMany( mappedBy = "clubName")
     private List<Ranking> rankingList;
 //    private Collection<Ranking> rankingList = new HashSet<>();
-
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clubid")
-//    private List<Players> playersList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -205,6 +210,8 @@ public class Clubs implements Serializable {
         this.name = name;
     }
 
+
+
     public String getImage() {
         return image;
     }
@@ -222,12 +229,12 @@ public class Clubs implements Serializable {
     }
 
 //    @XmlTransient
-//    public List<ClubsRefSeason> getClubsRefSeasonList() {
-//        return clubsRefSeasonList;
+//    public List<Player> getPlayerList() {
+//        return playerList;
 //    }
 //
-//    public void setClubsRefSeasonList(List<ClubsRefSeason> clubsRefSeasonList) {
-//        this.clubsRefSeasonList = clubsRefSeasonList;
+//    public void setPlayerList(List<Player> playerList) {
+//        this.playerList = playerList;
 //    }
 
     public String getLinkclub() {
@@ -237,6 +244,5 @@ public class Clubs implements Serializable {
     public void setLinkclub(String linkclub) {
         this.linkclub = linkclub;
     }
-
 
 }

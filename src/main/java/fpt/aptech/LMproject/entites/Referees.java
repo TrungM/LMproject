@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -43,11 +45,9 @@ public class Referees implements Serializable {
     @Size(min = 1, max = 225)
     @Column(name = "name")
     private String name;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 225)
-    @Column(name = "nationality")
-    private String nationality;
+    @JoinColumn(name = "nationality", referencedColumnName = "id")
+    @ManyToOne
+    private Flags nationality;
 
     public Referees() {
     }
@@ -56,7 +56,7 @@ public class Referees implements Serializable {
         this.id = id;
     }
 
-    public Referees(Integer id, String name, String nationality) {
+    public Referees(Integer id, String name, Flags nationality) {
         this.id = id;
         this.name = name;
         this.nationality = nationality;
@@ -78,37 +78,12 @@ public class Referees implements Serializable {
         this.name = name;
     }
 
-    public String getNationality() {
+    public Flags getNationality() {
         return nationality;
     }
 
-    public void setNationality(String nationality) {
+    public void setNationality(Flags nationality) {
         this.nationality = nationality;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Referees)) {
-            return false;
-        }
-        Referees other = (Referees) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "fpt.aptech.LMproject.entites.Referees[ id=" + id + " ]";
-    }
-    
 }

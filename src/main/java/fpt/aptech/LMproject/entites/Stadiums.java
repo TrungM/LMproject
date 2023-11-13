@@ -100,29 +100,6 @@ public class Stadiums implements Serializable {
         this.active = active;
     }
 
-//    @XmlTransient
-//    public List<Schedules> getSchedulesList() {
-//        return schedulesList;
-//    }
-//
-//    public void setSchedulesList(List<Schedules> schedulesList) {
-//        this.schedulesList = schedulesList;
-//    }
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
 
     public String getCapacity() {
         return capacity;
@@ -154,6 +131,22 @@ public class Stadiums implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     
