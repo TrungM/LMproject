@@ -27,6 +27,7 @@ public interface SchedulesRepository extends JpaRepository<Schedules, Integer> {
     
     @Query("SELECT c FROM Schedules c WHERE c.season = :season AND c.clubHome=:id OR c.clubAway=:id")
     List<Schedules> FindByMatchClub(@PathVariable("id") Ranking id,  @PathVariable("season") Season season );
+    
 
     @Query("SELECT c FROM Schedules c WHERE c.clubHome=:id OR c.clubAway=:id")
     List<Schedules> FindByMatchNameClub(@PathVariable("id") Ranking id);
