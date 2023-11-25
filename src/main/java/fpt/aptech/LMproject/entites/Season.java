@@ -46,6 +46,8 @@ public class Season implements Serializable {
     private String champion;
     @Column(name = "active")
     private Integer active;
+    @Column(name = "finish")
+    private Integer finish;
     @Column(name = "active_ui")
     private Integer activeUI;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "season")
@@ -69,9 +71,11 @@ public class Season implements Serializable {
         this.id = id;
     }
 
-    public Season(Integer id, String seasonname) {
+    public Season(Integer id, String seasonname , Integer finish) {
         this.id = id;
         this.seasonname = seasonname;
+        this.finish = finish;
+
     }
 
     public Integer getId() {
@@ -131,5 +135,14 @@ public class Season implements Serializable {
         this.activeUI = activeUI;
     }
 
-    
+    public Integer getFinish() {
+        return finish;
+    }
+
+    public void setFinish(Integer finish) {
+        this.finish = finish;
+    }
+
+  
+
 }

@@ -12,7 +12,8 @@ import java.util.List;
  * @author Minh Trung
  */
 public interface IFReferees {
-     public List<RefereesDTO> findAll(int number);
+
+    public List<RefereesDTO> findAll(int number);
 
     public List<RefereesDTO> findAllNoPagination();
 
@@ -25,4 +26,7 @@ public interface IFReferees {
     public RefereesDTO getRefereesByID(int id);
 
     public void deleteByID(int id);
+
+    public boolean checkReferees(Integer referees);
+
 }

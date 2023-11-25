@@ -8,6 +8,7 @@ import fpt.aptech.LMproject.DTO.RefereesDTO;
 import fpt.aptech.LMproject.entites.Referees;
 import fpt.aptech.LMproject.exceptions.ResourceNotFoundException;
 import fpt.aptech.LMproject.repository.RefereesRepository;
+import fpt.aptech.LMproject.repository.SchedulesRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,10 +23,12 @@ import org.springframework.stereotype.Service;
  * @author Minh Trung
  */
 @Service
-public class RefereesService implements IFReferees{
-    
+public class RefereesService implements IFReferees {
+
     @Autowired
     private RefereesRepository repository;
+    @Autowired
+    SchedulesRepository schedule;
     ModelMapper modelMapper = new ModelMapper();
 
     public RefereesDTO mapToDto(Referees referees) {
@@ -110,5 +113,17 @@ public class RefereesService implements IFReferees{
         Referees a = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Referees", "id", String.valueOf(id)));
         repository.delete(a);
     }
-    
+
+    @Override
+    public boolean checkReferees(Integer referees) {
+        Referees a = repository.findById(referees).orElseThrow(() -> new ResourceNotFoundException("Referees", "id", String.valueOf(referees)));
+
+        if (schedule.checkReferees(a) == true) {
+            return true;
+        } else {
+
+            return false;
+        }
+    }
+
 }

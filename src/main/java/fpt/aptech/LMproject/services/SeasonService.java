@@ -27,7 +27,7 @@ public class SeasonService implements IFSeason {
 
     @Override
     public List<SeasonDTO> findAllNoPaginationSeason() {
-        List<Season> list = repository.findAll();
+        List<Season> list = repository.findList();
         List<SeasonDTO> result = list.stream().map(a -> mapToDto(a)).collect(Collectors.toList());
         return result;
     }
@@ -87,5 +87,11 @@ public class SeasonService implements IFSeason {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void updateFinishSeason(Integer active) {
+        repository.updateFinishSeason(active);
+
     }
 }

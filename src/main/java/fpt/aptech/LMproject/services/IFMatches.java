@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface IFMatches {
 
-    public void createSchdule(List<RankingDTO> clubs);
+    public void createSchedule(List<RankingDTO> clubs);
 
     public List<SchedulesDTO> findAll();
 
@@ -26,6 +26,12 @@ public interface IFMatches {
 
     public void updateActiveMatches(Integer code, Integer active);
 
+    public void updateMatchesHomepage(Integer isHome, Integer roundmatch);
+
+    public void updateResetMatchesHomepage(Integer roundmatch);
+
+    public void updateType(Integer type, Integer id);
+
     public List<SchedulesDTO> findLeg(String leg, Integer season);
 
     public int SchduleCount();
@@ -34,17 +40,20 @@ public interface IFMatches {
 
     public boolean checkSeason(Integer season);
 
+
     public void deleteAll();
 
     public void deleteSeasonTable(Integer season);
-    
-    public List<SchedulesDTO> listMatchFollowClub(Integer id, Integer season);
 
+    public List<SchedulesDTO> listMatchFollowClub(Integer id, Integer season);
 
 //    UI
     public List<SchedulesDTO> getListUI();
 
     public void updateSchduleActiveUI(Integer season);
 
+    public List<SchedulesDTO> getMatchHomepage();
+
+    public List<SchedulesDTO> getResult();
 
 }

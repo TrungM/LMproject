@@ -45,8 +45,8 @@ public class TableController {
     public Object getByCode(@PathVariable Integer id) {
         return ranking.getRankingByCodeClubs(id);
     }
-    
-     @GetMapping("/{id}")
+
+    @GetMapping("/{id}")
     public Object getByID(@PathVariable Integer id) {
         return ranking.getRankingByID(id);
     }
@@ -55,6 +55,9 @@ public class TableController {
     public ResponseEntity<RankingDTO> put(@PathVariable Integer id, @RequestBody RankingDTO a) {
 
         a.setId(id);
+        a.setPoints(a.getWon() * 3 + a.getDraw());
+        a.setGD(a.getGF() - a.getGA());
+
         RankingDTO edit = ranking.updateTables(a);
 
         return new ResponseEntity<>(edit, HttpStatus.OK);
@@ -62,7 +65,7 @@ public class TableController {
 
     @PutMapping("/active/{id}")
     public ResponseEntity<RankingDTO> putActiveUI(@PathVariable Integer id) {
-         ranking.updateRankingActiveUI(id);
+        ranking.updateRankingActiveUI(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

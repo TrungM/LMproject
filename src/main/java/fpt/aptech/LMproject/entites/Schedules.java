@@ -51,13 +51,26 @@ public class Schedules implements Serializable {
     @Size(max = 30)
     @Column(name = "match_time")
     private String matchTime;
-    @Column(name = "referees")
-    private Integer referees;
+    
+     @Size(max = 30)
+    @Column(name = "time_happen")
+    private String timeHappen;
+
+    @Column(name = "is_home")
+    private Integer isHome;
+
+    @JoinColumn(name = "referees", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Referees referees;
+
     @Column(name = "roundmatch")
     private Integer roundmatch;
     @Size(max = 20)
     @Column(name = "leg")
     private String leg;
+    
+    @Column(name = "status")
+    private Integer status;
 
     @Column(name = "result_club_home")
     private Integer resultClubHome;
@@ -123,11 +136,11 @@ public class Schedules implements Serializable {
         this.matchTime = matchTime;
     }
 
-    public Integer getReferees() {
+    public Referees getReferees() {
         return referees;
     }
 
-    public void setReferees(Integer referees) {
+    public void setReferees(Referees referees) {
         this.referees = referees;
     }
 
@@ -202,6 +215,33 @@ public class Schedules implements Serializable {
     public void setActive(Integer active) {
         this.active = active;
     }
+
+    public Integer getIsHome() {
+        return isHome;
+    }
+
+    public void setIsHome(Integer isHome) {
+        this.isHome = isHome;
+    }
+
+    public String getTimeHappen() {
+        return timeHappen;
+    }
+
+    public void setTimeHappen(String timeHappen) {
+        this.timeHappen = timeHappen;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
     
     
+    
+    
+
 }

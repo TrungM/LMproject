@@ -49,7 +49,7 @@ public class MatchesController {
 
     @PostMapping(value = "/createMatches")
     public ResponseEntity<String> postSchedules(@RequestBody List<RankingDTO> clubs) {
-        matches.createSchdule(clubs);
+        matches.createSchedule(clubs);
         return ResponseEntity.ok("Congra");
 
     }
@@ -82,6 +82,24 @@ public class MatchesController {
     @PutMapping("/activeClub/{code}/{active}")
     public ResponseEntity<SchedulesDTO> putSchedulesActive(@PathVariable Integer code, @PathVariable Integer active) {
         matches.updateActiveMatches(code, active);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/activeMatch/{isHome}/{roundmatch}")
+    public ResponseEntity<SchedulesDTO> putScheduleHomepage(@PathVariable Integer isHome, @PathVariable Integer roundmatch) {
+        matches.updateMatchesHomepage(isHome, roundmatch);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/activeMatch/reset/{roundmatch}")
+    public ResponseEntity<SchedulesDTO> putScheduleResetHomepage(@PathVariable Integer roundmatch) {
+        matches.updateResetMatchesHomepage(roundmatch);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/type/{id}/{type}")
+    public ResponseEntity<SchedulesDTO> putScheduleType(@PathVariable Integer type, @PathVariable Integer id) {
+        matches.updateType(type, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -124,5 +142,15 @@ public class MatchesController {
     public ResponseEntity<RankingDTO> putActiveUI(@PathVariable Integer season) {
         matches.updateSchduleActiveUI(season);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/homepage")
+    public List<SchedulesDTO> homepage() {
+        return matches.getMatchHomepage();
+    }
+
+    @GetMapping("/result")
+    public List<SchedulesDTO> result() {
+        return matches.getResult();
     }
 }

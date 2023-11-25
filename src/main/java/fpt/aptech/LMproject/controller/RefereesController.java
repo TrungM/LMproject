@@ -28,7 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/referees")
 public class RefereesController {
-     @Autowired
+
+    @Autowired
     private IFReferees referees;
 
     @GetMapping(value = "/all")
@@ -72,6 +73,12 @@ public class RefereesController {
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable int id) {
         referees.deleteByID(id);
+    }
+
+    @GetMapping("/check/{referee}")
+    @ResponseStatus(HttpStatus.OK)
+    public boolean checkReferee(@PathVariable Integer referee) {
+        return referees.checkReferees(referee);
     }
 
 }

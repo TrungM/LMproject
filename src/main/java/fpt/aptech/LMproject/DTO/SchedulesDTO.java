@@ -4,6 +4,7 @@
  */
 package fpt.aptech.LMproject.DTO;
 
+import fpt.aptech.LMproject.entites.Referees;
 import fpt.aptech.LMproject.entites.Season;
 import fpt.aptech.LMproject.entites.Stadiums;
 
@@ -25,16 +26,18 @@ public class SchedulesDTO {
     private Integer resultClubHome;
     private Integer resultClubAway;
     private Stadiums stadiumId;
-    private Integer referees;
+    private Referees referees;
     private Integer active;
+    private Integer isHome;
+    private Integer status;
+    private String timeHappen;
 
-    
     public SchedulesDTO() {
     }
 
     ;
 
-    public SchedulesDTO(Integer id, String matchCode, RankingDTO clubHome, RankingDTO clubAway, String matchDay, String matchTime, Season season, Integer roundmatch, String leg, Integer resultClubHome, Integer resultClubAway, Stadiums stadiumId, Integer referees, Integer active) {
+    public SchedulesDTO(Integer id, String matchCode, RankingDTO clubHome, RankingDTO clubAway, String matchDay, String matchTime, Season season, Integer roundmatch, String leg, Integer resultClubHome, Integer resultClubAway, Stadiums stadiumId, Referees referees, Integer active, Integer isHome, Integer status, String timeHappen) {
         this.id = id;
         this.matchCode = matchCode;
         this.clubHome = clubHome;
@@ -49,11 +52,13 @@ public class SchedulesDTO {
         this.stadiumId = stadiumId;
         this.referees = referees;
         this.active = active;
+        this.isHome = isHome;
+        this.status = status;
+        this.timeHappen = timeHappen;
     }
 
     
 
-   
     public Integer getId() {
         return id;
     }
@@ -141,7 +146,7 @@ public class SchedulesDTO {
     public void setResultClubAway(Integer resultClubAway) {
         this.resultClubAway = resultClubAway;
     }
-    
+
     public Stadiums getStadiumId() {
         return stadiumId;
     }
@@ -149,13 +154,12 @@ public class SchedulesDTO {
     public void setStadiumId(Stadiums stadiumId) {
         this.stadiumId = stadiumId;
     }
-    
-    
-    public Integer getReferees() {
+
+    public Referees getReferees() {
         return referees;
     }
 
-    public void setReferees(Integer referees) {
+    public void setReferees(Referees referees) {
         this.referees = referees;
     }
 
@@ -167,5 +171,29 @@ public class SchedulesDTO {
         this.active = active;
     }
 
+    public Integer getIsHome() {
+        return isHome;
+    }
 
+    public void setIsHome(Integer isHome) {
+        this.isHome = isHome;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+   
+    public String getTimeHappen() {
+        return timeHappen;
+    }
+
+    public void setTimeHappen(String timeHappen) {
+        this.timeHappen = timeHappen;
+    }
+    
+   
 }

@@ -13,6 +13,7 @@ public class SeasonDTO {
     private Integer id;
     private String seasonname;
     private String champion;
+    private Integer finish;
     private Integer active;
     private Integer activeUI;
 
@@ -21,10 +22,11 @@ public class SeasonDTO {
 
     ;
 
-    public SeasonDTO(Integer id, String seasonname, String champion, Integer active, Integer activeUI) {
+    public SeasonDTO(Integer id, String seasonname, String champion, Integer finish, Integer active, Integer activeUI) {
         this.id = id;
         this.seasonname = seasonname;
         this.champion = champion;
+        this.finish = finish;
         this.active = active;
         this.activeUI = activeUI;
     }
@@ -69,6 +71,14 @@ public class SeasonDTO {
         this.activeUI = activeUI;
     }
 
+    public Integer getFinish() {
+        return finish;
+    }
+
+    public void setFinish(Integer finish) {
+        this.finish = finish;
+    }
 
    
+
 }

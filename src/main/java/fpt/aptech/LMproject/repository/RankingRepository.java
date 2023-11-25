@@ -38,7 +38,7 @@ public interface RankingRepository extends JpaRepository<Ranking, Integer> {
     @Query("SELECT c FROM Ranking c WHERE c.id =:id")
     Ranking getByID(@PathVariable("id") Integer id);
 
-    @Query("SELECT c FROM Ranking c WHERE c.active = 1 ORDER BY c.clubName.name ASC ")
+    @Query("SELECT c FROM Ranking c WHERE c.active = 1 ORDER BY  c.points DESC , c.gd DESC, c.clubName.name ASC  ")
     List<Ranking> getRankingUI();
 
     @Query("SELECT c FROM Ranking c ORDER BY c.clubName.name ASC ")

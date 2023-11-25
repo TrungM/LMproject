@@ -7,18 +7,23 @@ package fpt.aptech.LMproject.services;
 import fpt.aptech.LMproject.DTO.RankingDTO;
 import fpt.aptech.LMproject.DTO.SchedulesDTO;
 import fpt.aptech.LMproject.entites.Ranking;
+import fpt.aptech.LMproject.entites.Referees;
 import fpt.aptech.LMproject.entites.Schedules;
 import fpt.aptech.LMproject.entites.Season;
 import fpt.aptech.LMproject.exceptions.ResourceNotFoundException;
 import fpt.aptech.LMproject.repository.ClubsRepository;
 import fpt.aptech.LMproject.repository.RankingRepository;
+import fpt.aptech.LMproject.repository.RefereesRepository;
 import fpt.aptech.LMproject.repository.SchedulesRepository;
 import fpt.aptech.LMproject.repository.SeasonRepository;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Queue;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
@@ -63,62 +68,95 @@ public class MatchesService implements IFMatches {
     }
 
     @Override
-    public void createSchdule(List<RankingDTO> clubs) {
+    public void createSchedule(List<RankingDTO> clubs) {
 
         int numRounds = 38;
         int matchesPerRound = 10;
 
-        List<SchedulesDTO> matches = new ArrayList<>();
-        Set<RankingDTO> selectedTeams = new HashSet<>();
-
         Season ss = repositoryseason.findById(clubs.get(1).getSeason())
                 .orElseThrow(() -> new ResourceNotFoundException("Season", "id", String.valueOf(clubs.get(1).getSeason())));
 
+        List<SchedulesDTO> matches = new ArrayList<>();
+
         for (int i = 0; i < clubs.size(); i++) {
             for (int j = i + 1; j < clubs.size(); j++) {
-                SchedulesDTO a = new SchedulesDTO();
-                a.setClubHome(clubs.get(i));
-                a.setClubAway(clubs.get(j));
-                a.setSeason(ss);
-                matches.add(a);
+                SchedulesDTO match = new SchedulesDTO();
+                match.setClubHome(clubs.get(i));
+                match.setClubAway(clubs.get(j));
+                match.setSeason(ss);
+                matches.add(match);
+
             }
         }
 
-        Collections.shuffle(matches);
-
         for (int round = 1; round <= numRounds; round++) {
             List<SchedulesDTO> currentRoundMatches = new ArrayList<>();
+            Set<String> usedPairs = new HashSet<>();
+
+            Collections.shuffle(matches);
 
             // Sử dụng while để đảm bảo có đủ số trận đấu trong mỗi vòng
             while (currentRoundMatches.size() < matchesPerRound) {
                 for (SchedulesDTO match : matches) {
-                    if (!selectedTeams.contains(match.getClubHome()) && !selectedTeams.contains(match.getClubAway())) {
-                        currentRoundMatches.add(match);
-                        selectedTeams.add(match.getClubHome());
-                        selectedTeams.add(match.getClubAway());
+                    String pairKey = getPairKey(match);
+
+                    // Check if the pair has already been used in this round
+                    if (usedPairs.contains(pairKey)) {
+                        continue;
                     }
-                    // Kiểm tra xem đã đủ số trận cho vòng hiện tại chưa
-                    if (currentRoundMatches.size() >= matchesPerRound) {
-                        break;
-                    }
+
+                    currentRoundMatches.add(match);
+                    usedPairs.add(pairKey);
+                    matches.remove(match);
+                    break;
                 }
             }
+
+            if (round == 1) {
+                Collections.shuffle(currentRoundMatches);
+                for (SchedulesDTO match : currentRoundMatches) {
+                    Schedules scheduleEntity1 = new Schedules();
+                    scheduleEntity1.setClubHome(mapToEntityRanking(match.getClubAway()));
+                    scheduleEntity1.setClubAway(mapToEntityRanking(match.getClubHome()));
+                    scheduleEntity1.setLeg("return");
+                    scheduleEntity1.setSeason(match.getSeason());
+                    scheduleEntity1.setRoundmatch(20);
+
+                    schedule.save(scheduleEntity1);
+                }
+
+            } else {
+
+                for (SchedulesDTO match : currentRoundMatches) {
+                    Schedules scheduleEntity1 = new Schedules();
+                    scheduleEntity1.setClubHome(mapToEntityRanking(match.getClubAway()));
+                    scheduleEntity1.setClubAway(mapToEntityRanking(match.getClubHome()));
+                    scheduleEntity1.setLeg("return");
+                    scheduleEntity1.setSeason(match.getSeason());
+                    scheduleEntity1.setRoundmatch(20 + round - 1);
+
+                    schedule.save(scheduleEntity1);
+                }
+
+            }
+            Collections.shuffle(currentRoundMatches);
 
             for (SchedulesDTO match : currentRoundMatches) {
                 Schedules scheduleEntity = new Schedules();
                 scheduleEntity.setClubHome(mapToEntityRanking(match.getClubHome()));
                 scheduleEntity.setClubAway(mapToEntityRanking(match.getClubAway()));
-                scheduleEntity.setLeg(round > 19 ? "return" : "first");
+                scheduleEntity.setLeg("first");
                 scheduleEntity.setSeason(match.getSeason());
                 scheduleEntity.setRoundmatch(round);
 
                 schedule.save(scheduleEntity);
             }
-
-            // Loại bỏ đội đã chọn để chuẩn bị cho vòng kế tiếp
-            selectedTeams.clear();
         }
+    }
 
+    private String getPairKey(SchedulesDTO match) {
+        // Creating a unique key for the pair using club IDs
+        return match.getClubHome().getId() + "-" + match.getClubAway().getId();
     }
 
     @Override
@@ -146,12 +184,13 @@ public class MatchesService implements IFMatches {
         return response;
     }
 
+    // user and Admin 
     @Override
     public SchedulesDTO getMatchByID(Integer id
     ) {
         Optional<Schedules> a = schedule.findById(id);
 
-        SchedulesDTO dto = mapToDtoSchdules(a.orElseThrow(() -> new ResourceNotFoundException("Stadiums", "id", String.valueOf(id))));
+        SchedulesDTO dto = mapToDtoSchdules(a.orElseThrow(() -> new ResourceNotFoundException("Schedules", "id", String.valueOf(id))));
 
         return dto;
     }
@@ -236,6 +275,35 @@ public class MatchesService implements IFMatches {
         Season s = repositoryseason.findById(season).orElseThrow(() -> new ResourceNotFoundException("Season", "id", String.valueOf(season)));
         Ranking r = ranking.findById(id).orElseThrow(() -> new ResourceNotFoundException("Ranking", "id", String.valueOf(id)));
         List<Schedules> list = schedule.FindByMatchClub(r, s);
+        List<SchedulesDTO> result = list.stream().map(rank -> mapToDtoSchdules(rank)).collect(Collectors.toList());
+        return result;
+    }
+
+    @Override
+    public void updateMatchesHomepage(Integer isHome, Integer roundmatch) {
+        schedule.updateHomepage(isHome, roundmatch);
+    }
+
+    @Override
+    public List<SchedulesDTO> getMatchHomepage() {
+        List<Schedules> list = schedule.getMatchHomepage();
+        List<SchedulesDTO> result = list.stream().map(rank -> mapToDtoSchdules(rank)).collect(Collectors.toList());
+        return result;
+    }
+
+    @Override
+    public void updateResetMatchesHomepage(Integer roundmatch) {
+        schedule.updateResetHomepage(roundmatch);
+    }
+
+    @Override
+    public void updateType(Integer type, Integer id) {
+        schedule.updateType(type, id);
+    }
+
+    @Override
+    public List<SchedulesDTO> getResult() {
+        List<Schedules> list = schedule.getResult();
         List<SchedulesDTO> result = list.stream().map(rank -> mapToDtoSchdules(rank)).collect(Collectors.toList());
         return result;
     }

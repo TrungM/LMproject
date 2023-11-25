@@ -21,6 +21,8 @@ public interface IFSeason {
 
     public void updateSeasonUI(Integer active);
 
+    public void updateFinishSeason(Integer active);
+
     public void updateResetSeasonnUI(Integer active);
 
     public List<SeasonDTO> listActiveUISeason();
